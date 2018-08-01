@@ -17,9 +17,11 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-function block_showgrade_extend_navigation_course($navigation, $course, $context) {   
+function local_badgelevel_extend_navigation_course($navigation, $course, $context) {   
 
-    $url = new moodle_url('/local/badgelevel/index.php', array('courseid' => $course->id));
-    $name = 'Award badges when leveling up';
-    $navigation->get('coursebadges')->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/block', ''));
+    if  (has_capability('moodle/badges:awardbadge', $context)) {
+        $url = new moodle_url('/local/badgelevel/index.php', array('courseid' => $course->id));
+        $name = 'Award badges when leveling up';
+        $navigation->get('coursebadges')->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/block', ''));
+    }
 }

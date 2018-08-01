@@ -33,7 +33,7 @@ class block_form extends moodleform {
         // 1. Get block id's from course that can throw levelup events (showgrade and block_xp)
         $mform->addElement('select', 'blockid', 'Select block', $this->get_blocks(), null);
         $mform->addElement('submit', 'blockselected', 'Select',
-            ['formaction' => '/blocks/showgrade/badgelevel.php']);
+            ['formaction' => '/local/badgelevel/index.php']);
     }
 
     private function get_blocks() {

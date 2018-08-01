@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class badgelevel_db {
 
-    private static $table = "block_showgrade_level_badge";
+    private static $table = "local_badgelevel";
 
     public function __construct(int $courseid, int $blockid) {
         $this->courseid = $courseid;

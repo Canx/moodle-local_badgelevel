@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_badgelevel_level_badge" COMMENT="Levels and badges associations.">
+    <TABLE NAME="local_badgelevel" COMMENT="Levels and badges associations.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="block_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
