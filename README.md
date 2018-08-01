@@ -2,6 +2,8 @@
 Moodle plugin that awards badges when user levels up in "block_xp" and "block_showgrade" plugins.
 
 # Prerequisites
+As admin install the [xp](https://github.com/FMCorz/moodle-block_xp) or [showgrade](https://github.com/Canx/moodle-block_showgrade) block.
+
 As a teacher add an "xp" or "showgrade" block to your course and make sure you created at least one course badge in the course admin page.
 
 # Usage
