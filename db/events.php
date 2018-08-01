@@ -19,11 +19,11 @@ $observers = array(
     // Support for block_xp plugin
     array(
         'eventname'   => '\block_xp\event\user_leveledup',
-        'callback'    => 'block_showgrade_observer::xp_user_leveledup',
+        'callback'    => 'local_badgelevel_observer::xp_user_leveledup',
     ),
     // Support for block_showgrade plugin
     array(
         'eventname'   => '\block_showgrade\event\user_leveledup',
-        'callback'    => 'block_showgrade_observer::showgrade_user_leveledup')
+        'callback'    => 'local_badgelevel_observer::showgrade_user_leveledup')
 );
 
