@@ -19,7 +19,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->libdir . '/badgeslib.php');
-require_once('classes/event/user_leveledup.php');
 
 class badge_helper {
 
@@ -43,19 +42,4 @@ class badge_helper {
             $badge->issue($user);
         }
     }
-
-    public static function trigger_levelup_event_if_needed($user, $level, $courseid, $blockid) {
-        $params = array(
-            'context' => context_block::instance($blockid),
-            'userid' => $user,
-            'courseid' => $courseid,
-            'other' => array('level' => $level,
-                             'blockid' => $blockid)
-        );
-
-        // TODO: only call this if level increment!
-        $lupevent = \block_showgrade\event\user_leveledup::create($params);
-        $lupevent->trigger();
-    }
-
 }
