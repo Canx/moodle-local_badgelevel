@@ -16,10 +16,10 @@
 
 require_once($CFG->libdir . '/badgeslib.php');
 
-class block_showgrade_observer {
+class local_badgelevel_observer {
 
     // TODO: Move to common const space.
-    private static $table = "block_showgrade_level_badge";
+    private static $table = "local_badgelevel";
 
     public static function xp_user_leveledup(\block_xp\event\user_leveledup $event) {
         $blockid = self::get_blockid("xp", $event->contextid);
@@ -33,6 +33,7 @@ class block_showgrade_observer {
     private static function check_and_issue_badge($user, $level, $course, $block) {
         global $DB;
 
+	// TODO: do not select locked badges!
         $sql = "SELECT id FROM
                 (SELECT b.id FROM {badge} b
                 INNER JOIN {" . self::$table . "} AS lb
