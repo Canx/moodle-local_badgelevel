@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/showgrade/db" VERSION="20180724" COMMENT="XMLDB file for Moodle blocks/showgrade"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_badgelevel_level_badge" COMMENT="Levels and badges associations.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="block_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="badge_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="block_id" TYPE="foreign" FIELDS="block_id" REFTABLE="mdl_block_instances" REFFIELDS="id"/>
+        <KEY NAME="badge_id" TYPE="foreign" FIELDS="badge_id" REFTABLE="mdl_badge" REFFIELDS="id"/>
+        <KEY NAME="level_badge_id" TYPE="unique" FIELDS="level, block_id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
