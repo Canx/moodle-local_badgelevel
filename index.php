@@ -18,11 +18,11 @@ require_once('../../config.php');
 require_once('badgelevel_form.php');
 require_once('block_form.php');
 
-require_login();
+$courseid = required_param('courseid', PARAM_INT);
 
 // TODO: restrict access to course teachers!
+require_login($courseid);
 
-$courseid = required_param('courseid', PARAM_INT);
 $blockid = optional_param('blockid', null, PARAM_INT);
 
 $url = new moodle_url('/local/badgelevel/index.php', array('courseid' => $courseid, 'blockid' => $blockid));
@@ -34,7 +34,6 @@ $coursecontext = context_course::instance($courseid);
 $PAGE->set_context($coursecontext);
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url($url);
-
 
 $hdr = 'Link badges to levels';
 $PAGE->set_heading(format_string($course->fullname, true, array('context' => $coursecontext)) . ': ' . $hdr);
