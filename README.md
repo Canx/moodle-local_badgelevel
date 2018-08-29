@@ -12,3 +12,6 @@ As a teacher, navigate to "course administration", then to the "Badges" section 
 You will be able to choose the blocks added and link their levels to badges.
 
 Now as a user try to achieve one of the levels linked to a badge using the block criteria and check that you get the badge award notification!
+
+# License
+Licensed under the [GNU GPL License](http://www.gnu.org/copyleft/gpl.html).
