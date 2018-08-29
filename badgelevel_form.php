@@ -56,7 +56,7 @@ class badgelevel_form extends moodleform {
                 // Add badge to first in array.
                 $currentbadges = $badge + $freebadges;
                 $group = array();
-                $group[0] = $mform->createElement('select', 'badge' . $level, 'Level ' . $level, $currentbadges, null);
+                $group[0] = $mform->createElement('select', 'badge' . $level, 'Level ' . $level, $currentbadges, array("style" => "min-width: 200px"));
                 $group[1] = $mform->createElement('submit', 'updatebutton' . $level,
                     'Update', ['formaction' => '/local/badgelevel/index.php?action=update&level=' . $level]);
                 $group[2] = $mform->createElement('submit', 'deletebutton' . $level,
@@ -67,10 +67,10 @@ class badgelevel_form extends moodleform {
         // Add new level association only if available badges and levels.
 	// TODO: refactor urls
         if ($freebadges && $freelevels) {
-            //$mform->addElement('header', 'newlevelheader', 'Link badge to level');
+            $mform->addElement('header', 'newlevelheader', 'Link badge to level');
             $group = array();
             $group[0] = $mform->createElement('select', 'newlevel', 'Level', $freelevels, null);
-            $group[1] = $mform->createElement('select', 'newbadge', 'Badge', $freebadges, null);
+            $group[1] = $mform->createElement('select', 'newbadge', 'Badge', $freebadges, array("style" => "min-width: 200px"));
             $group[2] = $mform->createElement('submit', 'newbutton', 'Add',
                 ['formaction' => '/local/badgelevel/index.php?action=add']);
             $group[3] = $mform->createElement('submit', 'cancelbutton', 'Cancel',
