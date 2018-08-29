@@ -34,6 +34,8 @@ class badgelevel_form extends moodleform {
         // TODO: get max levels from get_maxlevels(), and refactor block_showgrade.php!
         $freelevels = $this->db->get_freelevels(20);
         $badgelevels = $this->db->get_badgelevels();
+
+        // TODO: action and level should be passed in customdata
         $this->action = empty($_GET['action']) ? "show" : $_GET['action'];
         $this->level = empty($_GET['level']) ? null : $_GET['level'];
 
@@ -45,8 +47,11 @@ class badgelevel_form extends moodleform {
         $mform->addElement('hidden', 'blockid', $blockid);
         $mform->setType('blockid', PARAM_INT);
 
+        // TODO: Show block name selected
+        $mform->addElement('header', 'blockname', "Block " . $blockid);
+
         // Show current level associations with badges.
-        $mform->addElement('header', 'currentlevels', 'Current badges');
+        //$mform->addElement('header', 'currentlevels', 'Current badges');
         foreach ($badgelevels as $level => $badge) {
                 // Add badge to first in array.
                 $currentbadges = $badge + $freebadges;
@@ -62,7 +67,7 @@ class badgelevel_form extends moodleform {
         // Add new level association only if available badges and levels.
 	// TODO: refactor urls
         if ($freebadges && $freelevels) {
-            $mform->addElement('header', 'newlevelheader', 'Link badge to level');
+            //$mform->addElement('header', 'newlevelheader', 'Link badge to level');
             $group = array();
             $group[0] = $mform->createElement('select', 'newlevel', 'Level', $freelevels, null);
             $group[1] = $mform->createElement('select', 'newbadge', 'Badge', $freebadges, null);
@@ -74,8 +79,7 @@ class badgelevel_form extends moodleform {
             $mform->setType('level', PARAM_INT);
         }
 
-        // TODO: Add link to add badges.
-        $mform->addElement('header', 'badgeheader', 'Badges');
+        //$mform->addElement('header', 'badgeheader', 'Badges');
         $mform->addElement('static', 'badgelink', '', '<a href="/badges/index.php?type=2&id=' . $courseid . '">Add badge</a>');
     }
 

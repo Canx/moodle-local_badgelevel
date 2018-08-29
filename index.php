@@ -65,6 +65,11 @@ if ($blockid) {
 } else {
     // No blockid passed, we have to choose it first!
     $form = new block_form($courseid);   
+
+    // TODO: add cancel button in block_form and process here!
+    // if ($form->is_cancelled()) {
+    //   redirect($courseurl);
+    //}
 }
 
 echo $OUTPUT->header();
