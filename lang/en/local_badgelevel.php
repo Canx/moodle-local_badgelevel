@@ -15,3 +15,5 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['pluginname'] = 'BadgeLevel';
+$string['err_numeric'] = 'You must enter a number here.';
+$string['missinglevel'] = 'You must provide a numeric level greater than 0.';

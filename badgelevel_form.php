@@ -73,17 +73,17 @@ class badgelevel_form extends moodleform {
         if ($freebadges && $freelevels) {
             $mform->addElement('header', 'newlevelheader', 'Link badge to level');
             $group = array();
-            $group[0] = $mform->createElement('select', 'newlevel', 'Level', $freelevels, null);
-            $group[1] = $mform->createElement('select', 'newbadge', 'Badge', $freebadges, array("style" => "min-width: 200px"));
-            $group[2] = $mform->createElement('submit', 'newbutton', 'Add',
-                ['formaction' => '/local/badgelevel/index.php?action=add']);
-            $group[3] = $mform->createElement('submit', 'cancelbutton', 'Cancel',
-                ['formaction' => '/local/badgelevel/index.php?action=cancel']);
-            $mform->addElement('group', 'newlevelgroup', null, $group, false);
+            //$group[0] = $mform->createElement('select', 'newlevel', 'Level', $freelevels, null);
+            $mform->addElement('text', 'level', 'Level', array("size" => 17)); 
             $mform->setType('level', PARAM_INT);
+            $mform->addRule('level', get_string('missinglevel', 'local_badgelevel'), 'required');
+            $mform->addRule('level', get_string('err_numeric', 'local_badgelevel'), 'numeric');
+            $mform->addElement('select', 'newbadge', 'Badge', $freebadges, array("style" => "min-width: 200px"));
+            $mform->addElement('submit', 'newbutton', 'Add',
+                ['formaction' => '/local/badgelevel/index.php?action=add']);
+            $mform->addElement('submit', 'cancelbutton', 'Cancel',
+                ['formaction' => '/local/badgelevel/index.php?action=cancel']);
         }
-
-        $mform->addElement('static', 'badgelink', '', '<a href="/badges/index.php?type=2&id=' . $courseid . '">Add badge</a>');
     }
 
     public function update() {
@@ -101,8 +101,8 @@ class badgelevel_form extends moodleform {
     public function add() {
         $level = $this->level;
         $formdata = get_object_vars($this->get_data());
-        $level = $formdata['newlevelgroup']['newlevel'];
-        $badge = $formdata['newlevelgroup']['newbadge'];
+        $level = $formdata['level'];
+        $badge = $formdata['newbadge'];
         $this->db->add($level, $badge);
     }
 }
