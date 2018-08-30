@@ -35,7 +35,7 @@ class badgelevel_form extends moodleform {
         $freelevels = $this->db->get_freelevels(20);
         $badgelevels = $this->db->get_badgelevels();
 
-        // TODO: action and level should be passed in customdata
+        // TODO: action and level should be passed in customdata.
         $this->action = empty($_GET['action']) ? "show" : $_GET['action'];
         $this->level = empty($_GET['level']) ? null : $_GET['level'];
 
@@ -47,16 +47,20 @@ class badgelevel_form extends moodleform {
         $mform->addElement('hidden', 'blockid', $blockid);
         $mform->setType('blockid', PARAM_INT);
 
-        // TODO: Show block name selected
+        // TODO: Show block name selected.
         $mform->addElement('header', 'blockname', "Block " . $blockid);
 
         // Show current level associations with badges.
-        //$mform->addElement('header', 'currentlevels', 'Current badges');
         foreach ($badgelevels as $level => $badge) {
                 // Add badge to first in array.
                 $currentbadges = $badge + $freebadges;
                 $group = array();
-                $group[0] = $mform->createElement('select', 'badge' . $level, 'Level ' . $level, $currentbadges, array("style" => "min-width: 200px"));
+                $group[0] = $mform->createElement('select',
+                    'badge' . $level,
+                    'Level ' . $level,
+                    $currentbadges,
+                    array("style" => "min-width: 200px"));
+
                 $group[1] = $mform->createElement('submit', 'updatebutton' . $level,
                     'Update', ['formaction' => '/local/badgelevel/index.php?action=update&level=' . $level]);
                 $group[2] = $mform->createElement('submit', 'deletebutton' . $level,
@@ -65,7 +69,7 @@ class badgelevel_form extends moodleform {
         }
 
         // Add new level association only if available badges and levels.
-	// TODO: refactor urls
+        // TODO: refactor urls.
         if ($freebadges && $freelevels) {
             $mform->addElement('header', 'newlevelheader', 'Link badge to level');
             $group = array();
@@ -79,7 +83,6 @@ class badgelevel_form extends moodleform {
             $mform->setType('level', PARAM_INT);
         }
 
-        //$mform->addElement('header', 'badgeheader', 'Badges');
         $mform->addElement('static', 'badgelink', '', '<a href="/badges/index.php?type=2&id=' . $courseid . '">Add badge</a>');
     }
 

@@ -26,7 +26,7 @@ class badge_helper {
     public static function check_and_issue_badge($user, $level, $course, $block) {
         global $DB;
 
-	// TODO: move sql logic to badgelevel_db
+        // TODO: move sql logic to badgelevel_db.
         $sql = "SELECT id FROM
                 (SELECT b.id FROM {badge} b
                 INNER JOIN {" . badgelevel::$table . "} AS lb

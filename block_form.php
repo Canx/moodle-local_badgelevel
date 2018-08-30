@@ -30,7 +30,6 @@ class block_form extends moodleform {
         $mform->addElement('hidden', 'courseid', $this->courseid);
         $mform->setType('courseid', PARAM_INT);
 
-        // 1. Get block id's from course that can throw levelup events (showgrade and block_xp)
         $mform->addElement('select', 'blockid', 'Select block', $this->get_blocks(), null);
         $mform->addElement('submit', 'blockselected', 'Select',
             ['formaction' => '/local/badgelevel/index.php']);
@@ -38,7 +37,7 @@ class block_form extends moodleform {
 
     private function get_blocks() {
         global $DB;
-        
+
         $sql = "SELECT bi.id, bi.blockname FROM {block_instances} bi
                 INNER JOIN {context} c ON c.id = bi.parentcontextid
                 WHERE c.instanceid = :contextid
@@ -53,7 +52,7 @@ class block_form extends moodleform {
 
         $records = $DB->get_records_sql($sql, $params);
 
-        foreach($records as $record) {
+        foreach ($records as $record) {
             $blocks[$record->id] = $record->blockname . " (" . $record->id . ")";
         }
 

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir . '/badgeslib.php');
 
 class local_badgelevel_observer {
@@ -33,7 +35,7 @@ class local_badgelevel_observer {
     private static function check_and_issue_badge($user, $level, $course, $block) {
         global $DB;
 
-	// TODO: do not select locked badges!
+        // TODO: do not select locked badges!
         $sql = "SELECT id FROM
                 (SELECT b.id FROM {badge} b
                 INNER JOIN {" . self::$table . "} AS lb

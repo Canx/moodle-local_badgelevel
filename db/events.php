@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 // List of observers.
 $observers = array(
-    // Support for block_xp plugin
+    // Support for block_xp plugin.
     array(
         'eventname'   => '\block_xp\event\user_leveledup',
         'callback'    => 'local_badgelevel_observer::xp_user_leveledup',
     ),
-    // Support for block_showgrade plugin
+    // Support for block_showgrade plugin.
     array(
         'eventname'   => '\block_showgrade\event\user_leveledup',
         'callback'    => 'local_badgelevel_observer::showgrade_user_leveledup')
