@@ -45,6 +45,8 @@ if ($blockid) {
 
     $form = new badgelevel_form($db);
 
+    $formdata = $form->get_data();
+
     switch ($form->action) {
         case 'update':
             $form->update();
@@ -55,13 +57,16 @@ if ($blockid) {
             redirect($url);
             break;
         case 'add':
-            $form->add();
-            redirect($url);
+            if ($formdata) {
+                $form->add();
+                redirect($url);
+            }
             break;
         case 'cancel':
             redirect($courseurl);
             break;
     }
+
 } else {
     // No blockid passed, we have to choose it first!
     $form = new block_form($courseid);

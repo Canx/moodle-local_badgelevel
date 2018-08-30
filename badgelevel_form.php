@@ -32,7 +32,6 @@ class badgelevel_form extends moodleform {
         $freebadges = $this->db->get_freebadges();
 
         // TODO: get max levels from get_maxlevels(), and refactor block_showgrade.php!
-        $freelevels = $this->db->get_freelevels(20);
         $badgelevels = $this->db->get_badgelevels();
 
         // TODO: action and level should be passed in customdata.
@@ -51,46 +50,30 @@ class badgelevel_form extends moodleform {
         $mform->addElement('header', 'blockname', "Block " . $blockid);
 
         // Show current level associations with badges.
-        foreach ($badgelevels as $level => $badge) {
-                // Add badge to first in array.
-                $currentbadges = $badge + $freebadges;
-                $group = array();
-                $group[0] = $mform->createElement('select',
-                    'badge' . $level,
-                    'Level ' . $level,
-                    $currentbadges,
-                    array("style" => "min-width: 200px"));
-
-                $group[1] = $mform->createElement('submit', 'updatebutton' . $level,
-                    'Update', ['formaction' => '/local/badgelevel/index.php?action=update&level=' . $level]);
-                $group[2] = $mform->createElement('submit', 'deletebutton' . $level,
-                    'Delete', ['formaction' => '/local/badgelevel/index.php?action=delete&level=' . $level]);
-                $mform->addElement('group', 'level' . $level, 'Level ' . $level, $group, false);
+        if ($badgelevels) {
+            $mform->addElement('html','<table><tr><th>Level</th><th>Badge</th><th></th></tr>');
+            foreach ($badgelevels as $level => $badge) {
+                    $mform->addElement('html','<tr><td style="min-width: 100px">' . $level . '</td>');
+                    $mform->addElement('html','<td style="min-width: 200px">' . current($badge) . '</td>');
+                    $mform->addElement('html','<td><input type="submit" class="btn btn-primary" name="deletebutton' . $level .'" id="id_deletebutton' . $level . '" value="Delete" formaction="/local/badgelevel/index.php?action=delete&amp;level=' .$level . '"></td></tr>');
+            }
+            $mform->addElement('html','</table>');
         }
 
         // Add new level association only if available badges and levels.
         // TODO: refactor urls.
-        if ($freebadges && $freelevels) {
+        if ($freebadges) {
             $mform->addElement('header', 'newlevelheader', 'Link badge to level');
             $group = array();
-            //$group[0] = $mform->createElement('select', 'newlevel', 'Level', $freelevels, null);
-            $mform->addElement('text', 'level', 'Level', array("size" => 17)); 
-            $mform->setType('level', PARAM_INT);
-            $mform->addRule('level', get_string('missinglevel', 'local_badgelevel'), 'required');
-            $mform->addRule('level', get_string('err_numeric', 'local_badgelevel'), 'numeric');
+            $mform->addElement('text', 'newlevel', 'Level', array("size" => 17)); 
+            $mform->setType('newlevel', PARAM_INT);
             $mform->addElement('select', 'newbadge', 'Badge', $freebadges, array("style" => "min-width: 200px"));
             $mform->addElement('submit', 'newbutton', 'Add',
                 ['formaction' => '/local/badgelevel/index.php?action=add']);
             $mform->addElement('submit', 'cancelbutton', 'Cancel',
                 ['formaction' => '/local/badgelevel/index.php?action=cancel']);
+            $mform->setType('level', PARAM_INT);
         }
-    }
-
-    public function update() {
-        $level = $this->level;
-        $formdata = get_object_vars($this->get_data());
-        $badge = $formdata['level' . $level]['badge' . $level];
-        $this->db->update($level, $badge);
     }
 
     public function delete() {
@@ -101,8 +84,21 @@ class badgelevel_form extends moodleform {
     public function add() {
         $level = $this->level;
         $formdata = get_object_vars($this->get_data());
-        $level = $formdata['level'];
+        $level = $formdata['newlevel'];
         $badge = $formdata['newbadge'];
         $this->db->add($level, $badge);
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+    
+        if (empty($data['newlevel'])) {
+            $errors['newlevel'] = get_string('missinglevel', 'local_badgelevel');
+        }
+        elseif ($data['newlevel'] < 1) {
+            $errors['newlevel'] = get_string('missinglevel', 'local_badgelevel');
+        }
+    
+        return $errors;
     }
 }
