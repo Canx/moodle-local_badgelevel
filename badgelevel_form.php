@@ -16,18 +16,22 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once("{$CFG->libdir}/formslib.php");
+require_once($CFG->libdir . "/formslib.php");
+require_once($CFG->libdir . "/badgeslib.php");
 require_once('./badgelevel_db.php');
 
 class badgelevel_form extends moodleform {
+    protected $context;
 
     public function __construct($db) {
         parent::__construct(null, array('db' => $db));
+
     }
 
     public function definition() {
         $this->db = $this->_customdata['db'];
         $courseid = $this->db->courseid;
+        $context = context_course::instance($courseid);
         $blockid = $this->db->blockid;
         $freebadges = $this->db->get_freebadges();
 
@@ -47,14 +51,17 @@ class badgelevel_form extends moodleform {
         $mform->setType('blockid', PARAM_INT);
 
         // TODO: Show block name selected.
-        $mform->addElement('header', 'blockname', "Block " . $blockid);
+        $mform->addElement('header', 'blockname', "Badges for block " . $blockid);
 
         // Show current level associations with badges.
         if ($badgelevels) {
-            $mform->addElement('html','<table><tr><th>Level</th><th>Badge</th><th></th></tr>');
-            foreach ($badgelevels as $level => $badge) {
-                    $mform->addElement('html','<tr><td style="min-width: 100px">' . $level . '</td>');
-                    $mform->addElement('html','<td style="min-width: 200px">' . current($badge) . '</td>');
+            $mform->addElement('html','<table class="table"><tr><th>Level</th><th>Badge image</th><th>Badge name</th><th>Description</th><th></th></tr>');
+            foreach ($badgelevels as $level => $badgeid) {
+                    $badge = new badge($badgeid);
+                    $mform->addElement('html','<tr><td>' . $level . '</td>');
+                    $mform->addElement('html', '<td>' . print_badge_image($badge, $context, 'small') . '</td>');
+                    $mform->addElement('html','<td>' . $badge->name . '</td>');
+                    $mform->addElement('html','<td>' . $badge->description . '</td>');
                     $mform->addElement('html','<td><input type="submit" class="btn btn-primary" name="deletebutton' . $level .'" id="id_deletebutton' . $level . '" value="Delete" formaction="/local/badgelevel/index.php?action=delete&amp;level=' .$level . '"></td></tr>');
             }
             $mform->addElement('html','</table>');

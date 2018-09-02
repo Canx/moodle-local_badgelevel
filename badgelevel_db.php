@@ -61,7 +61,7 @@ class badgelevel_db {
 
         $badgelevels = array();
         foreach ($rs as $record) {
-            $badgelevels[$record->level] = [ $record->badge_id => $record->name ];
+            $badgelevels[$record->level] = $record->badge_id;
         }
 
         return $badgelevels;
